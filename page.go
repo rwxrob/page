@@ -43,6 +43,7 @@ func FixEnv() {
 	if strings.Index(less, `X`) < 0 {
 		less += `X`
 	}
+	os.Setend(`LESS`, less)
 	os.Setenv(`LV`, `-c`)
 }
 
