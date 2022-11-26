@@ -1,12 +1,6 @@
 package page_test
 
-import (
-	"fmt"
-	"os"
-
-	"github.com/rwxrob/page"
-)
-
+/*
 func ExampleTest() {
 
 	text := `
@@ -60,3 +54,4 @@ The fading arch comes from a censured kamikaze. It's an undeniable fact, really;
 	// Output:
 	// ignored
 }
+*/

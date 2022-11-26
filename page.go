@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"os"
 	"os/exec"
+	"strings"
 
 	Z "github.com/rwxrob/bonzai/z"
 	"github.com/rwxrob/to"
@@ -27,6 +28,24 @@ func FindPager() string {
 	return path
 }
 
+// FixEnv sets environment variables for
+// different pagers to get them to support color ANSI escapes. FRX is
+// added to LESS and LV is set to -c. (These are the same fixes used by
+// the git diff command.)
+func FixEnv() {
+	less := os.Getenv(`LESS`)
+	if strings.Index(less, `R`) < 0 {
+		less += `R`
+	}
+	if strings.Index(less, `F`) < 0 {
+		less += `F`
+	}
+	if strings.Index(less, `X`) < 0 {
+		less += `X`
+	}
+	os.Setenv(`LV`, `-c`)
+}
+
 // File looks up the system pager and passes the first argument to
 // it.
 func File(path string) error {
@@ -34,6 +53,7 @@ func File(path string) error {
 	if pager == "" {
 		return fmt.Errorf(`failed to find pager`)
 	}
+	FixEnv()
 	return Z.Exec(pager, path)
 }
 
@@ -56,5 +76,6 @@ func This[T any](buf T) error {
 	if err != nil {
 		return err
 	}
+	FixEnv()
 	return Z.Exec(pager, f.Name())
 }

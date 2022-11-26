@@ -1,16 +1,11 @@
 package page
 
 import (
+	"os"
+
 	Z "github.com/rwxrob/bonzai/z"
 	"github.com/rwxrob/help"
 )
-
-/*
-func init() {
-	Z.Conf.SoftInit()
-	Z.Vars.SoftInit()
-}
-*/
 
 var Cmd = &Z.Cmd{
 	Name:    `page`,
@@ -39,7 +34,9 @@ var Cmd = &Z.Cmd{
 	`,
 
 	Call: func(x *Z.Cmd, args ...string) error {
-
-		return nil
+		if len(args) == 0 {
+			return This(os.Stdin)
+		}
+		return File(args[0])
 	},
 }
